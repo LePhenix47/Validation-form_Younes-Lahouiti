@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Meta tags-->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="description" content="This repository contains the code for the validation form!" />
+  <meta color="color-scheme" content="light dark" />
+
+  <!-- Title -->
+  <title>Validation form</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./style.css" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/904e9ee361.js" crossorigin="anonymous"></script>
+
+  <!-- Page logo -->
+  <link rel="icon" href="./check-icon.png" type="image/gif" />
+
+  <!-- JS -->
+  <script defer src="app.js"></script>
+</head>
+
+<body>
+  <main class="main">
+
+    <h1 class="main__title">Sign in.</h1>
+
+    <form action="#">
+      <section class="main__section">
+        <label for="file" class="main__label">Add profile picture</label>
+        <input type="file" class="main__input" id="file" />
+        <img src="./ressources/user.svg" alt="Image of a default profile picture">
+      </section>
+      <section class="main__section">
+        <label for="nickname" class="main__label">Nickname</label>
+        <input type="text" class="main__input" id="nickname" />
+      </section>
+      <section class="main__section">
+        <label for="email" class="main__label">Email</label>
+        <input type="email" class="main__input" id="email" />
+      </section>
+      <section class="main__section">
+        <label for="password" class="main__label">Password</label>
+        <input type="password" class="main__input" id="password" />
+      </section>
+      <section class="main__section">
+        <label for="confirmation" class="main__label">Confirm password</label>
+        <input type="password" class="main__input" id="confirmation" />
+      </section>
+    </form>
+  </main>
+
+
+</body>
+
+</html>

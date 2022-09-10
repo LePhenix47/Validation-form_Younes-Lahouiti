@@ -1,0 +1,119 @@
+//SASS variables
+$body-bg-color-primary: #d9a7c7;
+$body-bg-color-secondary: #fffcdc;
+$body-bg-color-primary--dark-theme: #265838;
+$body-bg-color-secondary--dark-theme: #000323;
+
+$text-color: #0e0e0e;
+
+$btn-color: #fffcdc;
+$card-bg-color: #dedede;
+
+//CSS Variables
+:root {
+    --body-bg-color-primary: #{$body-bg-color-primary};
+    --body-bg-color-secondary: #{$body-bg-color-secondary};
+    --body-bg-color-primary--dark-theme: #{$body-bg-color-primary--dark-theme};
+    --body-bg-color-secondary--dark-theme: #{$body-bg-color-secondary--dark-theme};
+
+    --text-color:#{$text-color};
+
+    --btn-color:#{$btn-color};
+    --card-bg-color:#{$card-bg-color};
+}
+
+
+//Dark theme
+@media (prefers-color-scheme: dark) {
+    //SASS variables
+    $btn-color: #000323;
+    $card-bg-color: #212121;
+    $text-color: #f1f1f1;
+
+    //CSS variables
+
+    :root {
+        --text-color:#{$text-color};
+
+        --btn-color:#{$btn-color};
+        --card-bg-color:#{$card-bg-color};
+    }
+
+    body {
+        background-position: 100% 100% !important;
+    }
+}
+
+//Maps
+$breakpoints: (
+    mobile: 768px,
+    tablet: 992px,
+    laptop: 993px,
+    desktop: 1150px
+);
+
+
+//Mixins 
+@mixin center-flex($gap: 0px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $gap;
+}
+
+@mixin center-flex-column($gap: 0px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: $gap;
+}
+
+@mixin mobile-only {
+    @media screen and (max-width: map-get($breakpoints, mobile)) {
+        @content;
+    }
+}
+
+
+//Norm and typography
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Open sans, Helvetica, sans-serif;
+    min-height: 100vh;
+    background-image: linear-gradient(to right, var(--body-bg-color-primary), var(--body-bg-color-secondary), var(--body-bg-color-primary--dark-theme), var(--body-bg-color-secondary--dark-theme));
+    background-size: 300% 100%;
+    background-position: 0 0;
+    color: var(--text-color);
+    transition:
+        background-position 450ms ease-out,
+        background-color 450ms ease-out,
+        color 450ms ease-out;
+    overflow: hidden;
+}
+
+img {
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    object-position: center;
+    height: 100px;
+}
+
+input {
+    border: none;
+
+    &:focus {
+        outline: none;
+    }
+}
