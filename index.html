@@ -36,31 +36,57 @@
 <body>
   <main class="main">
 
-    <h1 class="main__title">Sign in.</h1>
+    <div class="main__container">
 
-    <form action="#">
-      <section class="main__section">
-        <label for="file" class="main__label">Add profile picture</label>
-        <input type="file" class="main__input" id="file" />
-        <img src="./ressources/user.svg" alt="Image of a default profile picture">
-      </section>
-      <section class="main__section">
-        <label for="nickname" class="main__label">Nickname</label>
-        <input type="text" class="main__input" id="nickname" />
-      </section>
-      <section class="main__section">
-        <label for="email" class="main__label">Email</label>
-        <input type="email" class="main__input" id="email" />
-      </section>
-      <section class="main__section">
-        <label for="password" class="main__label">Password</label>
-        <input type="password" class="main__input" id="password" />
-      </section>
-      <section class="main__section">
-        <label for="confirmation" class="main__label">Confirm password</label>
-        <input type="password" class="main__input" id="confirmation" />
-      </section>
-    </form>
+      <h1 class="main__title">Sign in form<i class="fa-solid fa-right-to-bracket"></i></h1>
+
+      <form action="#" method="post" class="main__form">
+        <section class="main__section main__section-file">
+          <input type="file" class="main__input-file" id="file" />
+          <label for="file" class="main__label main__label-file">Add profile picture?</label>
+          <div class="main__image-preview-container">
+            <img src="" alt="" title="Add a profile picture?" class="main__image">
+            <p class="main__image-preview-name">Image preview</p>
+          </div>
+        </section>
+        <section class="main__section main__section-nickname">
+          <input type="text" class="main__input" id="nickname" placeholder="Must be at least 3 characters long" />
+          <label for="nickname" class="main__label">Nickname</label>
+        </section>
+        <section class="main__section main__section-email">
+          <input type="email" class="main__input" id="email" placeholder="nickname@domain.extension" />
+          <label for="email" class="main__label">Email</label>
+        </section>
+        <section class="main__section main__section-password">
+          <input type="password" class="main__input" id="password"
+            placeholder="1 symbol, 1 number and over 6 characters long"
+            title="Must be over 6 characters long and have 1 symbol and 1 number" />
+          <label for="password" class="main__label">Password</label>
+          <div class="main__password-strength">
+            <div class="main__passwrd-strength-weak">
+              <p class="main__passwrd-strength-weak-text"></p>
+            </div>
+            <div class="main__passwrd-strength-medium">
+              <p class="main__passwrd-strength-medium-text"></p>
+            </div>
+            <div class="main__passwrd-strength-strong">
+              <p class="main__passwrd-strength-strong-text"></p>
+            </div>
+          </div>
+        </section>
+        <section class="main__section main__section-confirmation">
+          <input type="password" class="main__input" id="confirmation" placeholder="Re-enter previous password" />
+          <label for="confirmation" class="main__label">Confirm password</label>
+        </section>
+
+        <button type="submit" class="main__button">Create account</button>
+
+      </form>
+    </div>
+
+
+
+
   </main>
 
 
