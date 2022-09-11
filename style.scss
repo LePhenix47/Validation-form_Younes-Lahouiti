@@ -7,18 +7,28 @@ $body-bg-color-secondary--dark-theme: #000323;
 $text-color: #0e0e0e;
 
 $btn-color: #000323;
+$btn-color--hover: lighten($btn-color, 10%);
+$btn-color--active: lighten($btn-color, 20%);
+
 $btn-text-color: #f1f1f1;
 
 $card-bg-color: #f7f2f2;
 
 $input-bg-color: white;
 
-$label-bg-color--hover: darken($input-bg-color, 20%);
+$label-bg-color--hover: darken($input-bg-color, 10%);
+$label-bg-color--active: darken($input-bg-color, 20%);
 
 
 $input-border-color--focus: blue;
+$input-border-color--valid: green;
+$input-border-color--invalid: red;
 
 $file-btn-border-color: gray;
+
+$password-color-weak: #ae2e2e;
+$password-color-medium: #f3e16f;
+$password-color-strong: #26db24;
 
 //CSS Variables
 :root {
@@ -30,14 +40,24 @@ $file-btn-border-color: gray;
     --text-color:#{$text-color};
 
     --btn-color:#{$btn-color};
+    --btn-color--hover:#{$btn-color--hover};
+    --btn-color--active:#{$btn-color--active};
+
     --btn-text-color:#{$btn-text-color};
     --card-bg-color:#{$card-bg-color};
 
     --input-bg-color:#{$input-bg-color};
     --input-border-color--focus:#{$input-border-color--focus};
+    --input-border-color--valid:#{$input-border-color--valid};
+    --input-border-color--invalid:#{$input-border-color--invalid};
     --file-btn-border-color:#{$file-btn-border-color};
 
     --label-bg-color--hover:#{$label-bg-color--hover};
+    --label-bg-color--active:#{$label-bg-color--active};
+
+    --password-color-weak:#{$password-color-weak};
+    --password-color-medium:#{$password-color-medium};
+    --password-color-strong:#{$password-color-strong};
 }
 
 
@@ -46,21 +66,27 @@ $file-btn-border-color: gray;
     //SASS variables
     $text-color: #f1f1f1;
 
-    $btn-color: #fffcdc;
+    $btn-color: #fff4dc;
+    $btn-color--hover: darken($btn-color, 20%);
+    $btn-color--active: lighten($btn-color, 30%);
+
     $btn-text-color: #0e0e0e;
 
     $card-bg-color: #212121;
 
     $input-bg-color: black;
-    $input-border-color--focus: yellow;
+    $input-border-color--focus: orange;
 
-    $label-bg-color--hover: lighten($input-bg-color, 20%);
+    $label-bg-color--hover: lighten($input-bg-color, 10%);
+    $label-bg-color--active: lighten($input-bg-color, 20%);
     //CSS variables
 
     :root {
         --text-color:#{$text-color};
 
         --btn-color:#{$btn-color};
+        --btn-color--hover:#{$btn-color--hover};
+        --btn-color--active:#{$btn-color--active};
         --btn-text-color:#{$btn-text-color};
         --card-bg-color:#{$card-bg-color};
 
@@ -68,6 +94,7 @@ $file-btn-border-color: gray;
         --input-border-color--focus:#{$input-border-color--focus};
 
         --label-bg-color--hover:#{$label-bg-color--hover};
+        --label-bg-color--active:#{$label-bg-color--active};
     }
 
     body {
@@ -104,6 +131,29 @@ $breakpoints: (
     @media screen and (max-width: map-get($breakpoints, mobile)) {
         @content;
     }
+}
+
+@mixin label-styling {
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    translate: -48% 0;
+    opacity: 85%;
+    color: var(--text-color);
+    transition:
+        scale 250ms ease-out,
+        translate 250ms ease-out,
+        opacity 250ms ease-out,
+    ;
+}
+
+@mixin input-styling {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    background-color: var(--input-bg-color);
+    padding: 5px 10px;
+    border-bottom: 2px solid var(--text-color);
 }
 
 
@@ -161,8 +211,6 @@ button {
     border: none;
     font-family: 'Open sans', Helvetica, sans-serif;
     ;
-    color: var(--btn-text-color);
-    background-color: var(--btn-color);
 
     &:hover {
         cursor: pointer;
@@ -170,7 +218,8 @@ button {
 }
 
 label {
-    :hover {
+
+    &:hover {
         cursor: pointer;
     }
 }
@@ -194,11 +243,10 @@ label {
     @include center-flex;
 
     &__container {
-        height: 85%;
+        height: 90%;
         width: 600px;
         background-color: var(--card-bg-color);
         border-radius: 5px;
-        outline: 2px solid var(--text-color);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -226,11 +274,23 @@ label {
         position: relative;
         @include center-flex-column();
         padding-bottom: 5px;
+        position: relative;
 
         &-file {
             flex-direction: row;
             gap: 50px;
             height: 20%;
+        }
+
+        &-password {
+            height: auto
+        }
+
+        &-icon {
+            height: 20px;
+            aspect-ratio: 1/1;
+            position: absolute;
+            right: 5px;
         }
     }
 
@@ -241,7 +301,6 @@ label {
         position: relative;
 
         &>p {
-            margin-top: 10px;
             width: min-content;
             position: absolute;
             left: 50%;
@@ -254,25 +313,109 @@ label {
 
     }
 
-
-    &__label {
+    &__input-label {
+        background-color: rebeccapurple;
         width: 100%;
-        position: absolute;
-        left: 50%;
-        translate: -48% 0;
-        opacity: 85%;
-        color: var(--text-color);
-        transition:
-            scale 250ms ease-out,
-            translate 250ms ease-out,
-            opacity 250ms ease-out,
-        ;
+        position: relative;
 
+        &-icon {
+            height: 20px;
+            aspect-ratio: 1/1;
+            position: absolute;
+            right: 5px;
+            bottom: 15px;
+        }
+    }
+
+    &__input-wrapped {
+        @include input-styling;
+        height: 50px;
+        position: relative;
+
+        &::placeholder {
+            opacity: 0;
+            transition: opacity 250ms ease-out;
+        }
+
+        &:focus::placeholder {
+            opacity: 1;
+        }
+
+        &:focus {
+            border-bottom: 2px solid var(--input-border-color--focus);
+        }
+
+        &:focus+.main__label-wrapped {
+            translate: -55.5% -45%;
+            scale: 85%;
+            opacity: 100%;
+        }
 
     }
 
-    &__label-file {
+    &__label-wrapped {
+        @include label-styling;
+        translate: -48% 55%;
+    }
 
+    &__password-strength {
+        margin: 20px 0;
+        @include center-flex(15px);
+
+
+        &-box {
+            background-color: white;
+            width: 100px;
+            height: 3px;
+            font-size: 13px;
+        }
+
+        &-weak {
+            background-color: var(--password-color-weak);
+            position: relative;
+
+            &::before {
+                content: "Weak";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                translate: -50% 25%;
+            }
+        }
+
+        &-medium {
+            background-color: var(--password-color-medium);
+            position: relative;
+
+            &::before {
+                content: "Medium";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                translate: -50% 25%;
+            }
+        }
+
+        &-strong {
+            background-color: var(--password-color-strong);
+            position: relative;
+
+            &::before {
+                content: "Strong";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                translate: -50% 25%;
+            }
+        }
+
+    }
+
+    &__label {
+        @include label-styling;
+    }
+
+    &__label-file {
         outline: 2px solid var(--file-btn-border-color);
         position: static;
         width: min-content;
@@ -280,24 +423,27 @@ label {
         background-color: var(--input-bg-color);
         padding: 15px 20px;
         opacity: 1;
+        transition: background-color 200ms ease-out;
 
-        :hover {
-            cursor: pointer;
+        &:hover {
             background-color: var(--label-bg-color--hover);
         }
 
-
+        &:active {
+            background-color: var(--label-bg-color--active);
+        }
 
     }
 
     &__input {
-        width: 100%;
-        height: 100%;
-        font-size: 16px;
-        background-color: var(--input-bg-color);
-        padding: 5px 10px;
-        border-bottom: 2px solid var(--text-color);
+        @include input-styling;
+        // &:valid {
+        //     border-bottom: 2px solid var(--input-border-color--valid);
+        // }
 
+        // &:invalid {
+        //     border-bottom: 2px solid var(--input-border-color--invalid);
+        // }
 
         &::placeholder {
             opacity: 0;
@@ -324,15 +470,28 @@ label {
     }
 
     &__button {
+        color: var(--btn-text-color);
+        background-color: var(--btn-color);
         font-size: 20px;
         padding: 5px 15px;
         border-radius: 5px;
         letter-spacing: 0px;
+        transition: background-color 200ms ease-out;
+
+        &:hover {
+            background-color: var(--btn-color--hover);
+        }
+
+        &:active {
+            background-color: var(--btn-color--active);
+        }
     }
 }
 
 .filled-input {
-    translate: -55% -95%;
+    translate: -55.5% -95%;
+    scale: 85%;
+    opacity: 100%;
 }
 
 .added-image {

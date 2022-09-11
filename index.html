@@ -50,33 +50,38 @@
           </div>
         </section>
         <section class="main__section main__section-nickname">
-          <input type="text" class="main__input" id="nickname" placeholder="Must be at least 3 characters long" />
+          <input type="text" class="main__input" id="nickname" placeholder="Must be at least 3 characters long"
+            autocapitalize="off" />
           <label for="nickname" class="main__label">Nickname</label>
+          <img src="" alt="" class="main__section-icon">
         </section>
         <section class="main__section main__section-email">
-          <input type="email" class="main__input" id="email" placeholder="nickname@domain.extension" />
+          <input type="email" class="main__input " id="email" placeholder="nickname@domain.extension" />
           <label for="email" class="main__label">Email</label>
+          <img src="" alt="" class="main__section-icon">
         </section>
         <section class="main__section main__section-password">
-          <input type="password" class="main__input" id="password"
-            placeholder="1 symbol, 1 number and over 6 characters long"
-            title="Must be over 6 characters long and have 1 symbol and 1 number" />
-          <label for="password" class="main__label">Password</label>
+          <div class="main__input-label">
+            <input type="password" class="main__input-wrapped" id="password"
+              placeholder="1 symbol, 1 number and over 6 characters long"
+              title="Must be over 6 characters long and have 1 symbol and 1 number" />
+            <label for="password" class="main__label-wrapped">Password</label>
+            <img src="" alt="" class="main__input-label-icon">
+
+          </div>
           <div class="main__password-strength">
-            <div class="main__passwrd-strength-weak">
-              <p class="main__passwrd-strength-weak-text"></p>
+            <div class="main__password-strength-box main__password-strength-weak">
             </div>
-            <div class="main__passwrd-strength-medium">
-              <p class="main__passwrd-strength-medium-text"></p>
+            <div class="main__password-strength-box main__password-strength-medium">
             </div>
-            <div class="main__passwrd-strength-strong">
-              <p class="main__passwrd-strength-strong-text"></p>
+            <div class="main__password-strength-box main__password-strength-strong">
             </div>
           </div>
         </section>
         <section class="main__section main__section-confirmation">
           <input type="password" class="main__input" id="confirmation" placeholder="Re-enter previous password" />
           <label for="confirmation" class="main__label">Confirm password</label>
+          <img src="" alt="" class="main__section-icon">
         </section>
 
         <button type="submit" class="main__button">Create account</button>
