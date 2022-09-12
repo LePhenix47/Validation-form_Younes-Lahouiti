@@ -180,7 +180,7 @@ body {
 
     @include mobile-only {
         min-height: 110vh;
-        overflow-y: auto;
+        overflow-y: scroll;
     }
 
     background-image: linear-gradient(to right, var(--body-bg-color-primary), var(--body-bg-color-secondary), var(--body-bg-color-primary--dark-theme), var(--body-bg-color-secondary--dark-theme));
