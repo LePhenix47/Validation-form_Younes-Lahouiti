@@ -7,4 +7,4 @@ You can also add a profile picture!
 
 Took ~20 hours to make
 
-GitHub Pages: https://lephenix47.github.io/Validation-form/
+GitHub Pages: https://lephenix47.github.io/Validation-form_Younes-Lahouiti/
