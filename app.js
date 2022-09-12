@@ -8,6 +8,8 @@ const formFieldsValidation = {
   confirmPassword: false,
 };
 
+const submitButton = document.querySelector(".main__button");
+
 let nicknameValue = "";
 let emailValue = "";
 let passwordInputValue = "";
@@ -28,10 +30,11 @@ function manageFormValidity(e) {
   if (failedFields.length && !isShakingAnimationOn) {
     isShakingAnimationOn = true;
     form.parentElement.classList.add("invalid-form-animation");
-
+    submitButton.disabled = true;
     setTimeout(() => {
       isShakingAnimationOn = false;
       form.parentElement.classList.remove("invalid-form-animation");
+      submitButton.disabled = false;
     }, 600);
   } else {
     let newUser = new User(nicknameValue, emailValue, passwordInputValue);
