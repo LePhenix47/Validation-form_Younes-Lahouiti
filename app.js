@@ -1,10 +1,35 @@
 //Part 0 Submitting the form
 const form = document.querySelector(".main__form");
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
+const formFieldsValidation = {
+  nickname: false,
+  email: false,
+  password: false,
+  confirmPassword: false,
+};
+
+let isShakingAnimationOn = false;
+form.addEventListener("submit", manageFormValidity);
+
+function manageFormValidity(e) {
   console.log(e);
-});
+  e.preventDefault();
+  const keys = Object.keys(formFieldsValidation); //Transforms the properties an object into an array
+
+  let failedFields = keys.filter((field) => {
+    return !formFieldsValidation[field];
+  });
+
+  if (failedFields.length && !isShakingAnimationOn) {
+    isShakingAnimationOn = true;
+    form.parentElement.classList.add("invalid-form-animation");
+
+    // setTimeout(() => {
+    //   isShakingAnimationOn = false;
+    //   form.parentElement.classList.remove("invalid-form-animation");
+    // }, 650);
+  }
+}
 
 // Part 1: Reading the file
 const fileUploadButton = document.querySelector(".main__input-file");
@@ -45,6 +70,10 @@ const textInputsArray = inputsArray.filter((input) => {
 
 for (textInputElement of textInputsArray) {
   textInputElement.addEventListener("change", handleInputs);
+  if (textInputElement.value !== "") {
+    let label = textInputElement.parentElement.querySelector(".main__label");
+    label.classList.add("filled-input");
+  }
 }
 
 const nicknameRegex = /^([a-z A-Z 0-9\.-]+)$/;
@@ -52,20 +81,26 @@ const nicknameRegex = /^([a-z A-Z 0-9\.-]+)$/;
 const emailRegex =
   /^([a-z A-Z 0-9\.-]+)@([a-z A-Z 0-9]+).([a-z]{2,8})(.[a-z]{2,8})?$/;
 
-//Returns a range of characters
-function addCharactersRange(InitialASCIICharacter, lastASCIICharacter) {
-  let charactersList = "";
-
-  for (let i = InitialASCIICharacter; i < lastASCIICharacter; i++) {
-    charactersList += String.fromCharCode(i);
-  }
-  return charactersList;
-}
-class userInfo {
-  constructor(nickname, email, password) {
-    this.nickname = nickname;
-    this.email = email;
-    this.password = password;
+//Adds the visual elements for the user to tell if a value from a form field is valid or not
+function giveValidationUI(inputElement, imageElement, errorOrCheck) {
+  if (errorOrCheck === "error") {
+    inputElement.classList.add("invalid-input");
+    inputElement.classList?.remove("valid-input");
+    imageElement.classList?.remove("hide");
+    imageElement.setAttribute("src", "./ressources/error.svg");
+    imageElement.setAttribute(
+      "alt",
+      "Image of an icon for when the input is invalid"
+    );
+  } else if (errorOrCheck === "check") {
+    inputElement.classList.add("valid-input");
+    inputElement.classList?.remove("invalid-input");
+    imageElement.classList?.remove("hide");
+    imageElement.setAttribute("src", "./ressources/check.svg");
+    imageElement.setAttribute(
+      "alt",
+      "Image of an icon for when the input is valid"
+    );
   }
 }
 
@@ -91,58 +126,47 @@ function handleInputs(e) {
     case "text": {
       console.log("input type = text");
       if (this.value.length > 2 && nicknameRegex.test(this.value)) {
-        this.classList.add("valid-input");
-        this.classList?.remove("invalid-input");
-        imageIcon.classList?.remove("hide");
-        imageIcon.setAttribute("src", "./ressources/check.svg");
-        imageIcon.setAttribute(
-          "alt",
-          "Image of an icon for the user when the input is valid"
-        );
+        giveValidationUI(this, imageIcon, "check");
+        formFieldsValidation.nickname = true;
       } else {
-        this.classList.add("invalid-input");
-        this.classList?.remove("valid-input");
-        imageIcon.classList?.remove("hide");
-        imageIcon.setAttribute("src", "./ressources/error.svg");
-        imageIcon.setAttribute(
-          "alt",
-          "Image of an icon for the user when the input is invalid"
-        );
+        giveValidationUI(this, imageIcon, "error");
+        formFieldsValidation.nickname = false;
       }
       break;
     }
     case "email": {
       console.log("Input type = email");
       if (emailRegex.test(this.value)) {
-        this.classList.add("valid-input");
-        this.classList?.remove("invalid-input");
-        imageIcon.classList?.remove("hide");
-        imageIcon.setAttribute("src", "./ressources/check.svg");
-        imageIcon.setAttribute(
-          "alt",
-          "Image of an icon for when the input is valid"
-        );
+        giveValidationUI(this, imageIcon, "check");
+        formFieldsValidation.email = true;
       } else {
-        this.classList.add("invalid-input");
-        this.classList?.remove("valid-input");
-        imageIcon.classList?.remove("hide");
-        imageIcon.setAttribute("src", "./ressources/error.svg");
-        imageIcon.setAttribute(
-          "alt",
-          "Image of an icon for when the input is invalid"
-        );
+        giveValidationUI(this, imageIcon, "error");
+        formFieldsValidation.email = false;
       }
       break;
     }
     case "password": {
       console.log("Input type = Password");
-
       break;
     }
   }
 }
 
 //Part 2.B: Verifying the strength of the password
+
+const passwordVerification = {
+  length: false,
+  symbols: false,
+  numbers: false,
+};
+
+const regexList = {
+  symbols: /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/,
+  numbers: /[0-9]/,
+};
+
+const uppercaseLettersRegex = /[A-Z]/;
+
 const passwordInput = document.querySelector("#password");
 const passwordConfirmationInput = document.querySelector("#confirmation");
 const passwordStrengthBoxesContainer = document.querySelector(
@@ -160,30 +184,95 @@ const passwordStrongBox = document.querySelector(
 let passwordInputValue = "";
 let confirmPasswordInputValue = "";
 
-passwordInput.addEventListener("input", verifyStrength);
+passwordInput.addEventListener("input", verifyPassword);
 passwordConfirmationInput.addEventListener("input", confirmCorrespondance);
+passwordConfirmationInput.addEventListener("blur", checkPasswordValue);
 
-const characterSets = {
-  symbols:
-    addCharactersRange(33, 48) +
-    addCharactersRange(58, 64) +
-    addCharactersRange(91, 96) +
-    addCharactersRange(123, 126),
-  numbers: addCharactersRange(48, 58),
-};
-
-const passwordContainsWhichSymbols = {
-  symbols: false,
-  numbers: false,
-};
-
-function verifyStrength(e) {
-  passwordInputValue = e.target.value;
-  if (this.value === "") {
+function checkPasswordValue(e) {
+  let imageIcon = e.target.parentElement.querySelector(
+    ".main__input-label-icon"
+  );
+  if (passwordInputValue === "") {
     passwordStrengthBoxesContainer.classList.add("hide");
+    giveValidationUI(this, imageIcon);
     return;
   }
-  passwordStrengthBoxesContainer.classList?.remove("hide");
+}
+
+function verifyPassword(e) {
+  passwordInputValue = e.target.value;
+  console.log(passwordInputValue);
+
+  let validationResult = 0;
+
+  let imageIcon = this.parentElement.querySelector(".main__input-label-icon");
+  // if (passwordInputValue === "") {
+  //   passwordStrengthBoxesContainer.classList.add("hide");
+  //   giveValidationUI(this, imageIcon);
+  //   return;
+  // }
+
+  for (const regex in passwordVerification) {
+    console.log({ regex }, passwordVerification[regex]);
+    if (regex === "length") {
+      if (passwordInputValue.length >= 6) {
+        passwordVerification.length = true;
+        validationResult++;
+      } else {
+        passwordVerification.length = false;
+
+        validationResult--;
+      }
+      continue;
+    }
+
+    if (regexList[regex].test(passwordInputValue)) {
+      passwordVerification[regex] = true;
+      validationResult++;
+    } else {
+      passwordVerification[regex] = false;
+      validationResult--;
+    }
+  }
+
+  console.log(passwordVerification);
+  console.group("validationResult");
+  console.log(validationResult);
+  console.groupEnd("validationResult");
+
+  if (validationResult >= 3) {
+    giveValidationUI(this, imageIcon, "check");
+    formFieldsValidation.password = true;
+    passwordStrengthBoxesContainer.classList?.remove("hide");
+    verifyStrength(passwordInputValue);
+  } else {
+    giveValidationUI(this, imageIcon, "error");
+    passwordStrengthBoxesContainer.classList.add("hide");
+    formFieldsValidation.password = false;
+  }
+}
+
+function verifyStrength(passwordValue) {
+  if (
+    passwordValue.length > 12 &&
+    passwordVerification.symbols &&
+    passwordVerification.numbers
+  ) {
+    passwordStrongBox.classList?.remove("invisible");
+    passwordMediumBox.classList?.remove("invisible");
+    passwordWeakBox.classList?.remove("invisible");
+  } else if (
+    (passwordValue.length > 9 && passwordVerification.symbols) ||
+    (passwordVerification.numbers && uppercaseLettersRegex.test(passwordValue))
+  ) {
+    passwordStrongBox.classList.add("invisible");
+    passwordMediumBox.classList?.remove("invisible");
+    passwordWeakBox.classList?.remove("invisible");
+  } else {
+    passwordStrongBox.classList.add("invisible");
+    passwordMediumBox.classList.add("invisible");
+    passwordWeakBox.classList?.remove("invisible");
+  }
 }
 
 //Part 2.C: Veryfing the correspondace of the passwords
@@ -196,22 +285,10 @@ function confirmCorrespondance(e) {
     passwordInputValue !== "" &&
     passwordInputValue === confirmPasswordInputValue
   ) {
-    this.classList.add("valid-input");
-    this.classList?.remove("invalid-input");
-    imageIcon.classList?.remove("hide");
-    imageIcon.setAttribute("src", "./ressources/check.svg");
-    imageIcon.setAttribute(
-      "alt",
-      "Image of an icon for when the input is valid"
-    );
+    giveValidationUI(this, imageIcon, "check");
+    formFieldsValidation.confirmPassword = true;
   } else {
-    this.classList.add("invalid-input");
-    this.classList?.remove("valid-input");
-    imageIcon.classList?.remove("hide");
-    imageIcon.setAttribute("src", "./ressources/error.svg");
-    imageIcon.setAttribute(
-      "alt",
-      "Image of an icon for when the input is invalid"
-    );
+    giveValidationUI(this, imageIcon, "error");
+    formFieldsValidation.confirmPassword = false;
   }
 }

@@ -16,6 +16,8 @@ $card-bg-color: #f7f2f2;
 
 $input-bg-color: white;
 
+$placeholder-color: #777;
+
 $label-bg-color--hover: darken($input-bg-color, 10%);
 $label-bg-color--active: darken($input-bg-color, 20%);
 
@@ -50,6 +52,9 @@ $password-color-strong: #26db24;
     --input-border-color--focus:#{$input-border-color--focus};
     --input-border-color--valid:#{$input-border-color--valid};
     --input-border-color--invalid:#{$input-border-color--invalid};
+
+    --placeholder-color:#{$placeholder-color};
+
     --file-btn-border-color:#{$file-btn-border-color};
 
     --label-bg-color--hover:#{$label-bg-color--hover};
@@ -143,8 +148,7 @@ $breakpoints: (
     transition:
         scale 250ms ease-out,
         translate 250ms ease-out,
-        opacity 250ms ease-out,
-    ;
+        opacity 250ms ease-out;
 }
 
 @mixin input-styling {
@@ -186,7 +190,9 @@ body {
 
 img {
     aspect-ratio: 1/1;
+    -o-object-fit: contain;
     object-fit: contain;
+    -o-object-position: center;
     object-position: center;
     height: 100px;
 }
@@ -224,15 +230,35 @@ label {
     }
 }
 
+*:-moz-read-write {
+    //Gives a style for <text-area> and <input/>
+    background-color: var(--input-bg-color);
+}
+
+*:read-write {
+    //Gives a style for <text-area> and <input/>
+    background-color: var(--input-bg-color);
+}
+
 //SASS keyframes
-@keyframes invalidInput {
-    from {
+
+
+@keyframes shake {
+
+
+    0% {
+        translate: 25% 0%;
+    }
+
+    75% {
         translate: -25% 0%;
     }
 
-    to {
-        translate: 25% 0%;
+    100% {
+        translate: 0% 0%;
     }
+
+
 }
 
 
@@ -251,6 +277,11 @@ label {
         flex-direction: column;
         align-items: center;
         gap: 25px;
+
+        @include mobile-only {
+            height: 100%;
+            border-radius: 0;
+        }
     }
 
     &__title {
@@ -280,6 +311,11 @@ label {
             flex-direction: row;
             gap: 50px;
             height: 20%;
+
+            @include mobile-only {
+                height: 15%;
+            }
+
         }
 
         &-password {
@@ -304,6 +340,8 @@ label {
         overflow: hidden;
 
         &>p {
+            width: -webkit-min-content;
+            width: -moz-min-content;
             width: min-content;
             position: absolute;
             left: 50%;
@@ -319,7 +357,9 @@ label {
     &__image {
         aspect-ratio: 1/1;
         height: 100px;
+        -o-object-fit: cover;
         object-fit: cover;
+        -o-object-position: center;
         object-position: center;
     }
 
@@ -342,9 +382,52 @@ label {
         height: 50px;
         position: relative;
 
+        &::-webkit-input-placeholder {
+            opacity: 0;
+            -webkit-transition: opacity 250ms ease-out;
+            transition: opacity 250ms ease-out;
+        }
+
+        &::-moz-placeholder {
+            opacity: 0;
+            -moz-transition: opacity 250ms ease-out;
+            transition: opacity 250ms ease-out;
+        }
+
+        &:-ms-input-placeholder {
+            opacity: 0;
+            -ms-transition: opacity 250ms ease-out;
+            transition: opacity 250ms ease-out;
+        }
+
+        &::-ms-input-placeholder {
+            opacity: 0;
+            -ms-transition: opacity 250ms ease-out;
+            transition: opacity 250ms ease-out;
+        }
+
         &::placeholder {
             opacity: 0;
-            transition: opacity 250ms ease-out;
+            color: var(--placeholder-color);
+            transition:
+                opacity 250ms ease-out,
+                color 250ms ease-out;
+        }
+
+        &:focus::-webkit-input-placeholder {
+            opacity: 1;
+        }
+
+        &:focus::-moz-placeholder {
+            opacity: 1;
+        }
+
+        &:focus:-ms-input-placeholder {
+            opacity: 1;
+        }
+
+        &:focus::-ms-input-placeholder {
+            opacity: 1;
         }
 
         &:focus::placeholder {
@@ -427,12 +510,19 @@ label {
     &__label-file {
         outline: 2px solid var(--file-btn-border-color);
         position: static;
+        width: -webkit-min-content;
+        width: -moz-min-content;
         width: min-content;
         white-space: nowrap;
         background-color: var(--input-bg-color);
         padding: 15px 20px;
         opacity: 1;
         transition: background-color 200ms ease-out;
+
+        @include mobile-only {
+            margin-left: 50px;
+            white-space: normal;
+        }
 
         &:hover {
             background-color: var(--label-bg-color--hover);
@@ -455,6 +545,30 @@ label {
         //     border-bottom: 2px solid var(--input-border-color--invalid);
         // }
 
+        &::-webkit-input-placeholder {
+            opacity: 0;
+            -webkit-transition: opacity 250ms ease-out;
+            transition: opacity 250ms ease-out;
+        }
+
+        &::-moz-placeholder {
+            opacity: 0;
+            -moz-transition: opacity 250ms ease-out;
+            transition: opacity 250ms ease-out;
+        }
+
+        &:-ms-input-placeholder {
+            opacity: 0;
+            -ms-transition: opacity 250ms ease-out;
+            transition: opacity 250ms ease-out;
+        }
+
+        &::-ms-input-placeholder {
+            opacity: 0;
+            -ms-transition: opacity 250ms ease-out;
+            transition: opacity 250ms ease-out;
+        }
+
         &::placeholder {
             opacity: 0;
             transition: opacity 250ms ease-out;
@@ -464,6 +578,22 @@ label {
             translate: -55.5% -95%;
             scale: 85%;
             opacity: 100%;
+        }
+
+        &:focus::-webkit-input-placeholder {
+            opacity: 1;
+        }
+
+        &:focus::-moz-placeholder {
+            opacity: 1;
+        }
+
+        &:focus:-ms-input-placeholder {
+            opacity: 1;
+        }
+
+        &:focus::-ms-input-placeholder {
+            opacity: 1;
         }
 
         &:focus::placeholder {
@@ -489,10 +619,12 @@ label {
         transition: background-color 200ms ease-out;
 
         &:hover {
+            cursor: pointer;
             background-color: var(--btn-color--hover);
         }
 
         &:active {
+            cursor: pointer;
             background-color: var(--btn-color--active);
         }
     }
@@ -519,4 +651,16 @@ label {
 
 .show {
     display: block;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.invalid-form-animation {
+    animation-name: shake;
+    animation-duration: 350ms;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 3;
+    animation-fill-mode: forwards;
 }
