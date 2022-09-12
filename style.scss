@@ -242,25 +242,85 @@ label {
 
 //SASS keyframes
 
-
-@keyframes shake {
-
+@-webkit-keyframes shake {
 
     0% {
-        translate: 25% 0%;
+        translate: 25px 0%;
     }
 
-    75% {
-        translate: -25% 0%;
+    33% {
+        translate: -25px 0%;
+    }
+
+    64% {
+        translate: 25px 0%;
     }
 
     100% {
         translate: 0% 0%;
     }
 
+}
+
+@keyframes shake {
+
+    0% {
+        translate: 25px 0%;
+    }
+
+    33% {
+        translate: -25px 0%;
+    }
+
+    64% {
+        translate: 25px 0%;
+    }
+
+    100% {
+        translate: 0% 0%;
+    }
 
 }
 
+@-webkit-keyframes shake-mobile {
+
+    0% {
+        translate: 0% 25px;
+    }
+
+    33% {
+        translate: 0% -25px;
+    }
+
+    64% {
+        translate: 0% 25px;
+    }
+
+    100% {
+        translate: 0% 0%;
+    }
+
+}
+
+@keyframes shake-mobile {
+
+    0% {
+        translate: 0% 25px;
+    }
+
+    33% {
+        translate: 0% -25px;
+    }
+
+    64% {
+        translate: 0% 25px;
+    }
+
+    100% {
+        translate: 0% 0%;
+    }
+
+}
 
 //SASS Styles
 
@@ -658,9 +718,22 @@ label {
 }
 
 .invalid-form-animation {
+    -webkit-animation-name: shake;
     animation-name: shake;
-    animation-duration: 350ms;
-    animation-timing-function: ease-out;
-    animation-iteration-count: 3;
-    animation-fill-mode: forwards;
+    -webkit-animation-duration: 300ms;
+    animation-duration: 300ms;
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+    translate: 0% 0%;
+
+    @include mobile-only {
+        -webkit-animation-name: shake-mobile;
+        animation-name: shake-mobile;
+    }
 }

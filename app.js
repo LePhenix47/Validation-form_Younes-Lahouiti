@@ -8,6 +8,11 @@ const formFieldsValidation = {
   confirmPassword: false,
 };
 
+let nicknameValue = "";
+let emailValue = "";
+let passwordInputValue = "";
+let confirmPasswordInputValue = "";
+
 let isShakingAnimationOn = false;
 form.addEventListener("submit", manageFormValidity);
 
@@ -24,12 +29,43 @@ function manageFormValidity(e) {
     isShakingAnimationOn = true;
     form.parentElement.classList.add("invalid-form-animation");
 
-    // setTimeout(() => {
-    //   isShakingAnimationOn = false;
-    //   form.parentElement.classList.remove("invalid-form-animation");
-    // }, 650);
+    setTimeout(() => {
+      isShakingAnimationOn = false;
+      form.parentElement.classList.remove("invalid-form-animation");
+    }, 600);
+  } else {
+    let newUser = new User(nicknameValue, emailValue, passwordInputValue);
+    //Emulates data being sent to the backend
+    alert("Data sent SUCCESSFULLY!");
+    console.log(newUser);
+    //callAPI(newUser);
   }
 }
+
+/*
+Since this repo doesn't contain any back-end but here's what I'd do to send the data to the backend
+
+async function callAPI(dataToBeSent){
+  try{
+
+    let response = await fetch([URL API], 
+      { method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToBeSent),
+    });
+
+    let result = await response.json();
+
+    ...
+  }catch(APIError){
+    console.error(APIError);
+  }
+}
+
+*/
 
 // Part 1: Reading the file
 const fileUploadButton = document.querySelector(".main__input-file");
@@ -79,7 +115,15 @@ for (textInputElement of textInputsArray) {
 const nicknameRegex = /^([a-z A-Z 0-9\.-]+)$/;
 
 const emailRegex =
-  /^([a-z A-Z 0-9\.-]+)@([a-z A-Z 0-9]+).([a-z]{2,8})(.[a-z]{2,8})?$/;
+  /^([a-z A-Z 0-9\.-]+)@([a-z A-Z 0-9]+)\.([a-z]{2,8})(.[a-z]{2,8})?$/;
+
+class User {
+  constructor(nickname, email, password) {
+    this.nickname = nickname;
+    this.email = email;
+    this.password = password;
+  }
+}
 
 //Adds the visual elements for the user to tell if a value from a form field is valid or not
 function giveValidationUI(inputElement, imageElement, errorOrCheck) {
@@ -128,6 +172,7 @@ function handleInputs(e) {
       if (this.value.length > 2 && nicknameRegex.test(this.value)) {
         giveValidationUI(this, imageIcon, "check");
         formFieldsValidation.nickname = true;
+        nicknameValue = this.value;
       } else {
         giveValidationUI(this, imageIcon, "error");
         formFieldsValidation.nickname = false;
@@ -139,6 +184,7 @@ function handleInputs(e) {
       if (emailRegex.test(this.value)) {
         giveValidationUI(this, imageIcon, "check");
         formFieldsValidation.email = true;
+        emailValue = this.value;
       } else {
         giveValidationUI(this, imageIcon, "error");
         formFieldsValidation.email = false;
@@ -180,9 +226,6 @@ const passwordMediumBox = document.querySelector(
 const passwordStrongBox = document.querySelector(
   ".main__password-strength-strong"
 );
-
-let passwordInputValue = "";
-let confirmPasswordInputValue = "";
 
 passwordInput.addEventListener("input", verifyPassword);
 passwordConfirmationInput.addEventListener("input", confirmCorrespondance);
