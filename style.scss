@@ -177,14 +177,19 @@ html {
 body {
     font-family: 'Open sans', Helvetica, sans-serif;
     min-height: 100vh;
+
+    @include mobile-only {
+        min-height: 110vh;
+        overflow-y: auto;
+    }
+
     background-image: linear-gradient(to right, var(--body-bg-color-primary), var(--body-bg-color-secondary), var(--body-bg-color-primary--dark-theme), var(--body-bg-color-secondary--dark-theme));
     background-size: 300% 100%;
     background-position: 0 0;
     color: var(--text-color);
-    transition:
-        background-position 450ms ease-out,
-        background-color 450ms ease-out,
-        color 450ms ease-out;
+    transition: background-position 450ms ease-out,
+    background-color 450ms ease-out,
+    color 450ms ease-out;
     overflow: hidden;
 }
 
@@ -326,6 +331,11 @@ label {
 
 .main {
     height: 100vh;
+
+    @include mobile-only {
+        height: 110vh;
+    }
+
     @include center-flex;
 
     &__container {
@@ -339,8 +349,8 @@ label {
         gap: 25px;
 
         @include mobile-only {
-            height: 100%;
-            border-radius: 0;
+            height: 95%;
+            width: 95%;
         }
     }
 
